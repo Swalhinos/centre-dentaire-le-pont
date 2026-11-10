@@ -1,0 +1,22 @@
+name: Extract site zip
+
+on:
+  push:
+    paths:
+      - 'site.zip'
+  workflow_dispatch:
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract site.zip into repo root
+        run: |
+          unzip -o site.zip -d .
+          rm site.zip
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Extract site source'
